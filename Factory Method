@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+class Player{
+private:
+    string name;
+public:
+    virtual void info() = 0;
+    ~Player();
+    string get_name(){
+        return name;
+    }
+    void set_name(string name){
+        this->name = name;
+    }
+};
+
+class BasketballPlayer : public Player{
+public:
+    void info(){
+        cout << "Basketball Player";
+    }
+};
+
+class FootballPlayer : public Player{
+public:
+    void info(){
+        cout << "Football Player";
+    }    
+};
+
+
+class Factory{
+public:
+    virtual Player* createPlayer() = 0;
+    virtual ~Factory() {}
+};
+
+class BasketballPlayer_Factory : public Factory{
+  public:    
+    Player* createPlayer() { 
+      return new BasketballPlayer; 
+    }
+};
+
+class FootballPlayer_Factory : public Factory{
+  public:    
+    Player* createPlayer() { 
+      return new FootballPlayer; 
+    }
+};
+
+int main(){
+    
+    BasketballPlayer_Factory* basketballPlayer_Factory = new BasketballPlayer_Factory;
+    FootballPlayer_Factory* footballPlayer_Factory = new FootballPlayer_Factory;
+
+    vector <Player*> players;
+    
+    players.push_back(basketballPlayer_Factory->createPlayer());
+    
+    players[0]->set_name("Alex");
+    
+    cout << players[0]->get_name() << endl;
+    
+    players[0]->info();
+    
+    return 0;
+}
