@@ -1,0 +1,116 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+class Phone {
+public:
+    virtual void info() const = 0;
+};
+
+class PhoneApple : public Phone {
+public:
+    void info() const override {
+        cout << "This is an Apple phone" << endl;
+    }
+};
+
+class PhoneNokia : public Phone {
+public:
+    void info() const override {
+        cout << "This is an Nokia phone" << endl;
+    }
+};
+
+class PhoneSamsung : public Phone {
+public:
+    void info() const override {
+        cout << "This is an Samsung phone" << endl;
+    }
+};
+
+class TV {
+public:
+    virtual void info() const = 0;
+};
+
+class TVApple : public TV {
+public:
+    void info() const override {
+        cout << "This is an Apple TV" << endl;
+    }
+};
+
+class TVNokia : public TV {
+public:
+    void info() const override {
+        cout << "This is an Nokia TV" << endl;
+    }
+};
+
+class TVSamsung : public TV {
+public:
+    void info() const override {
+        cout << "This is an Samsung TV" << endl;
+    }
+};
+
+class AbstractFactory{
+public:
+    virtual Phone *createPhone() const = 0;
+    virtual TV *createTV() const = 0;
+
+};
+
+class AppleFactory : public AbstractFactory{
+public:
+    Phone *createPhone() const override {
+        return new PhoneApple;
+    }
+    TV *createTV() const override {
+        return new TVApple;
+    }
+};
+
+class NokiaFactory : public AbstractFactory{
+public:
+    Phone *createPhone() const override {
+        return new PhoneNokia;
+    }
+    TV *createTV() const override {
+        return new TVNokia;
+    }
+};
+
+class SamsungFactory : public AbstractFactory{
+public:
+    Phone *createPhone() const override {
+        return new PhoneSamsung;
+    }
+    TV *createTV() const override {
+        return new TVSamsung;
+    }
+};
+
+void ClientCode(const AbstractFactory &factory) {
+    const Phone *productPhone = factory.createPhone();
+    const TV *productTV = factory.createTV();
+    
+    productPhone->info();
+    productTV->info();
+    
+    delete productPhone;
+    delete productTV;
+}
+
+int main(){
+    
+    cout << "Testing code with the Apple factory:\n";
+    
+    AppleFactory *f1 = new AppleFactory;
+    
+    ClientCode(*f1);
+    
+    delete f1;
+    
+    return 0;
+}
