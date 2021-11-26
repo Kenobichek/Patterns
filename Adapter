@@ -1,0 +1,41 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+class Interface {
+public:
+    virtual string Request() {
+        return "Default interface behavior.\n";
+    }
+};
+
+class MartianLanguage {
+public:
+    virtual string SpecificRequest() {
+        return "++C evol I\n";
+    }
+};
+
+class Adapter : public Interface, public MartianLanguage {
+    string Request() override {
+        string to_reverse = SpecificRequest();
+        reverse(to_reverse.begin(), to_reverse.end());
+        return "Adapter: " + to_reverse;
+    }
+};
+
+void ClientCode(Interface *interface) {
+  std::cout << interface->Request();
+}
+
+int main() {
+    
+    Adapter *adapter = new Adapter;
+
+    ClientCode(adapter);
+    
+    delete adaptee;
+
+    return 0;
+}
