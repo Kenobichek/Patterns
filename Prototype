@@ -1,0 +1,105 @@
+#include <iostream>
+
+using namespace std;
+
+class Mob {
+public:
+    Mob(int health, int damage) : health_(health), damage_(damage) {};
+        
+    virtual void info() = 0;
+    virtual Mob *clone() = 0;
+    
+private:
+    int health_;
+    int damage_;
+};
+
+class Creeper : Mob {
+public:
+    Creeper(int health, int damage) 
+        : Mob(health, damage) {};
+        
+    void info(){
+        cout << "It's Creeper.\n";
+    }
+    Mob *clone() override {
+        return new Creeper(*this);
+    }
+};
+
+class Spider : Mob {
+public:
+    Spider(int health, int damage) 
+        : Mob(health, damage) {};
+        
+    void info(){
+        cout << "It's Spider.\n";
+    }
+    Mob *clone() override {
+        return new Spider(*this);
+    }
+};
+
+class Enderman : Mob {
+public:
+    Enderman(int health, int damage) 
+        : Mob(health, damage) {};
+    
+    void info(){
+        cout << "It's Enderman.\n";
+    }
+    
+    Mob *clone() override {
+        return new Enderman(*this);
+    }
+};
+
+class FactoryPrototype {
+public:
+    Mob *createCreeper() {
+        Creeper prototype(30, 5);
+        return prototype.clone();
+    }
+    Mob *createSpider() {
+        Spider prototype(25, 2);
+        return prototype.clone();
+    }    
+    Mob *createEnderman() {
+        Enderman prototype(20, 3);
+        return prototype.clone();
+    }    
+};
+
+void ClientCode(FactoryPrototype &factory) {
+    
+    cout << "Create a clone Creeper\n";
+    Mob *CreeperClone = factory.createCreeper();
+    CreeperClone->info();
+    delete CreeperClone;
+    cout << endl;
+    
+    cout << "Create a clone Spider\n";
+    Mob *SpiderClone = factory.createSpider();
+    SpiderClone->info();
+    delete SpiderClone;
+    cout << endl;
+    
+    cout << "Create a clone Enderman\n";
+    Mob *EndermanClone = factory.createEnderman();
+    EndermanClone->info();
+    delete EndermanClone;
+    cout << endl;
+
+}
+
+int main()
+{
+
+    FactoryPrototype *f1 = new FactoryPrototype;
+    
+    ClientCode(*f1);
+    
+    delete f1;
+    
+    return 0;
+}
