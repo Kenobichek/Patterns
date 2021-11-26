@@ -1,0 +1,22 @@
+#include <iostream>
+
+using namespace std;
+
+class Sun {
+protected:
+    Sun(int value) : size_(size_) {};
+
+    static Sun* Sun_;
+    int size_ = 1392700;
+    
+public:
+    Sun(Sun &other) = delete;
+    void operator=(const Sun&) = delete;
+    
+    static Sun *getInstance(int size){
+        if(Sun_ == nullptr){
+            Sun_ = new Sun(size);
+        }
+        return Sun_;
+    }
+};
